@@ -2,15 +2,11 @@
  * 
  * COP3805C Section 01 Advanced Java Programming (5.5 Weeks) - Online Plus - 2022 Spring Quarter Term 2
  * 
- * Module 04 Course Project - Development Phase: Include Version Control
+ * Module 05 Course Project - Development Phase: Include Version Control
  * 
  * Instructor: Robert Kumar
  * 
- * 06/13/2022
- * 
- * 
- * 
- *
+ * 06/17/2022
  * 
  */
 
@@ -49,6 +45,7 @@ public class Main {
 			System.out.println("\nEnter A to add product");
 			System.out.println("Enter D to display all products");
 			System.out.println("Enter S to display a specific product qty");
+			System.out.println("Enter R to remove a specific product");
 			System.out.println("Enter Q to exit program");
 			System.out.println("-----------------------------");
 			option = scanner.next().charAt(0);
@@ -76,6 +73,14 @@ public class Main {
 				System.out.println("To display the product QTY:\nPlease enter the product color");{
 					String productColor = scanner.next();
 					GetProductQty(productColor);
+				}
+			}
+			
+			//delete a product from the database
+			if(option == 'R' || option == 'r') {
+				System.out.println("To delete a product:\nPlease enter the product color");{
+					String productColor = scanner.next();
+					DeleteProduct(productColor);
 				}
 			}
 			
@@ -123,8 +128,17 @@ public class Main {
 		ResultSet rs = sql.executeQuery("Select * from products");
 		while(rs.next()) {
 			System.out.println(rs.getString(1) + " " + rs.getString(2) + " QTY " + rs.getInt(3));
-		
+		}
+	}
+	
+	//delete a product from the database
+	public static void DeleteProduct(String color) throws SQLException {
+		Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory", "Tommy", "Hastetheday1!");
+		Statement sql = conn.createStatement();
+		String query1 = "delete from inventory.products " + "where color = '" + color + "'";
+		sql.executeUpdate(query1);
+		System.out.println("color deleted:");
 		}
 	}
 
-}
+
